@@ -1,12 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useState } from 'react';
+import Header from '@/components/Header';
+import Dashboard from '@/components/Dashboard';
+import SolidaryActions from '@/components/SolidaryActions';
+import VolunteerProgram from '@/components/VolunteerProgram';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState('dashboard');
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'dashboard':
+        return <Dashboard />;
+      case 'solidary':
+        return <SolidaryActions />;
+      case 'volunteer':
+        return <VolunteerProgram />;
+      default:
+        return <Dashboard />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-emerald-50">
+      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <main className="container mx-auto px-4 py-8">
+        {renderContent()}
+      </main>
+      <Footer />
     </div>
   );
 };
