@@ -1,4 +1,3 @@
-
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,7 @@ const ActionDetails = () => {
 
   // Simulation des données d'action (en réalité, cela viendrait d'une API)
   const actionData = {
-    1: {
+    "1": {
       title: 'Nettoyage du Parc Central',
       description: 'Rejoignez-nous pour nettoyer et embellir notre parc local. Cette action permet de préserver notre environnement tout en créant du lien social entre collègues.',
       fullDescription: 'Cette journée solidaire s\'inscrit dans notre démarche RSE et permet à chaque participant de contribuer concrètement à l\'amélioration de notre cadre de vie local. Nous fournirons tous les équipements nécessaires : gants, sacs poubelles, outils de nettoyage, et collations.',
@@ -31,7 +30,7 @@ const ActionDetails = () => {
     }
   };
 
-  const action = actionData[id as keyof typeof actionData];
+  const action = id ? actionData[id as keyof typeof actionData] : undefined;
 
   if (!action) {
     return (
