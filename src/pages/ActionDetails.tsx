@@ -1,3 +1,4 @@
+
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,34 @@ const ActionDetails = () => {
       skills: ['Aucune compétence particulière requise'],
       benefits: ['Temps libéré par l\'entreprise', 'Transport pris en charge', 'Collation offerte'],
       image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=400&fit=crop'
+    },
+    "2": {
+      title: 'Aide aux Restos du Cœur',
+      description: 'Participez à la distribution de repas et à l\'aide alimentaire pour les personnes en difficulté.',
+      fullDescription: 'Rejoignez notre équipe de bénévoles pour une action solidaire enrichissante. Vous participerez à la préparation et distribution de repas, tout en découvrant les enjeux de la précarité alimentaire. Une formation rapide sera dispensée sur place.',
+      date: '2024-06-22',
+      time: '08:00 - 14:00',
+      location: 'Centre Restos du Cœur, 456 Rue de la Solidarité',
+      category: 'Social',
+      participants: { current: 15, max: 25 },
+      organizer: 'Jean Martin',
+      skills: ['Sens du contact', 'Empathie', 'Travail en équipe'],
+      benefits: ['Formation incluse', 'Repas offert', 'Certificat de participation'],
+      image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=800&h=400&fit=crop'
+    },
+    "3": {
+      title: 'Atelier numérique seniors',
+      description: 'Aidez les personnes âgées à maîtriser les outils numériques et les nouvelles technologies.',
+      fullDescription: 'Partagez vos compétences numériques avec des seniors motivés ! Vous les accompagnerez dans l\'apprentissage des bases informatiques, des smartphones et des services en ligne. Votre patience et votre pédagogie feront la différence.',
+      date: '2024-06-28',
+      time: '14:00 - 17:00',
+      location: 'Maison des seniors, 789 Avenue de l\'Aide',
+      category: 'Éducation',
+      participants: { current: 12, max: 15 },
+      organizer: 'Sophie Laurent',
+      skills: ['Pédagogie', 'Patience', 'Maîtrise informatique'],
+      benefits: ['Formation pédagogique', 'Matériel fourni', 'Goûter convivial'],
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=400&fit=crop'
     }
   };
 

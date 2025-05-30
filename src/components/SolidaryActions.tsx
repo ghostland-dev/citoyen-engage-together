@@ -1,89 +1,77 @@
+
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Calendar, MapPin, Users, Clock, Plus, Search, Filter } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Calendar, MapPin, Users, Search, Filter, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const SolidaryActions = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('all');
 
   const actions = [
     {
-      id: 1,
+      id: '1',
       title: 'Nettoyage du Parc Central',
-      description: 'Rejoignez-nous pour nettoyer et embellir notre parc local. Gants et sacs fournis.',
+      description: 'Rejoignez-nous pour nettoyer et embellir notre parc local. Une belle opportunité de faire du bien à notre environnement.',
       date: '2024-06-15',
-      time: '09:00 - 12:00',
       location: 'Parc Central, 123 Rue de la Nature',
       category: 'Environnement',
       participants: { current: 25, max: 40 },
-      organizer: 'Marie Dupont',
       image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop'
     },
     {
-      id: 2,
-      title: 'Distribution alimentaire',
-      description: 'Aidez à distribuer des repas aux personnes en difficulté avec les Restos du Cœur.',
+      id: '2',
+      title: 'Aide aux Restos du Cœur',
+      description: 'Participez à la distribution de repas et à l\'aide alimentaire pour les personnes en difficulté.',
       date: '2024-06-22',
-      time: '11:00 - 15:00',
-      location: 'Centre communautaire, 45 Avenue Solidaire',
+      location: 'Centre Restos du Cœur, 456 Rue de la Solidarité',
       category: 'Social',
-      participants: { current: 15, max: 20 },
-      organizer: 'Jean Martin',
+      participants: { current: 15, max: 25 },
       image: 'https://images.unsplash.com/photo-1593113598332-cd288d649433?w=400&h=200&fit=crop'
     },
     {
-      id: 3,
+      id: '3',
       title: 'Atelier numérique seniors',
-      description: 'Accompagnez des seniors dans l\'apprentissage des outils numériques.',
+      description: 'Aidez les personnes âgées à maîtriser les outils numériques et les nouvelles technologies.',
       date: '2024-06-28',
-      time: '14:00 - 17:00',
-      location: 'Médiathèque municipale, 67 Rue du Savoir',
+      location: 'Maison des seniors, 789 Avenue de l\'Aide',
       category: 'Éducation',
-      participants: { current: 12, max: 12 },
-      organizer: 'Sophie Bernard',
-      image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=200&fit=crop'
+      participants: { current: 12, max: 15 },
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=200&fit=crop'
     },
     {
-      id: 4,
-      title: 'Plantation d\'arbres',
-      description: 'Participez à la reforestation de notre commune en plantant des arbres fruitiers.',
+      id: '4',
+      title: 'Collecte de vêtements',
+      description: 'Organisez et triez les dons de vêtements pour les redistribuer aux associations locales.',
       date: '2024-07-05',
-      time: '08:00 - 12:00',
-      location: 'Forêt communale, Chemin des Chênes',
+      location: 'Entrepôt solidaire, 321 Rue du Partage',
+      category: 'Social',
+      participants: { current: 8, max: 20 },
+      image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=200&fit=crop'
+    },
+    {
+      id: '5',
+      title: 'Plantation d\'arbres',
+      description: 'Contribuez à la reforestation urbaine en plantant des arbres dans notre quartier.',
+      date: '2024-07-12',
+      location: 'Zone de reforestation, Quartier Vert',
       category: 'Environnement',
-      participants: { current: 8, max: 30 },
-      organizer: 'Pierre Moreau',
+      participants: { current: 30, max: 30 },
       image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=400&h=200&fit=crop'
     }
   ];
 
-  const categories = ['all', 'Environnement', 'Social', 'Éducation'];
-
   const filteredActions = actions.filter(action => {
     const matchesSearch = action.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          action.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || action.category === selectedCategory;
+    const matchesCategory = categoryFilter === 'all' || action.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
-
-  const handleJoinAction = (actionTitle: string) => {
-    toast({
-      title: "Inscription confirmée !",
-      description: `Vous êtes inscrit(e) à l'action "${actionTitle}". Un email de confirmation vous sera envoyé.`,
-    });
-  };
-
-  const handleViewDetails = (actionId: number) => {
-    navigate(`/action/${actionId}`);
-  };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
@@ -94,129 +82,110 @@ const SolidaryActions = () => {
     }
   };
 
+  const handleActionClick = (actionId: string) => {
+    navigate(`/action/${actionId}`);
+  };
+
   return (
     <div className="space-y-8 animate-in fade-in-50 duration-500">
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold text-gray-800">Journées solidaires</h2>
-        <p className="text-lg text-gray-600">Participez à des actions citoyennes qui font la différence</p>
+        <h2 className="text-3xl font-bold text-gray-800">Journées Solidaires</h2>
+        <p className="text-lg text-gray-600">Découvrez et participez aux actions solidaires de votre entreprise</p>
       </div>
 
       {/* Filtres et recherche */}
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-white p-4 rounded-lg shadow-sm">
-        <div className="flex items-center space-x-2 flex-1">
-          <Search className="w-5 h-5 text-gray-400" />
-          <Input
-            placeholder="Rechercher une action..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1"
-          />
-        </div>
-        <div className="flex items-center space-x-2">
-          <Filter className="w-5 h-5 text-gray-400" />
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border rounded-md px-3 py-2 bg-white"
-          >
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category === 'all' ? 'Toutes les catégories' : category}
-              </option>
-            ))}
-          </select>
-        </div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600">
-              <Plus className="w-4 h-4 mr-2" />
-              Proposer une action
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Proposer une nouvelle action</DialogTitle>
-              <DialogDescription>
-                Vous avez une idée d'action solidaire ? Partagez-la avec vos collègues !
-              </DialogDescription>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <Input placeholder="Titre de l'action" />
-              <Input placeholder="Description" />
-              <Input placeholder="Date et heure" type="datetime-local" />
-              <Input placeholder="Lieu" />
-              <Button className="w-full bg-gradient-to-r from-green-500 to-blue-500">
-                Soumettre ma proposition
-              </Button>
+      <Card className="bg-white/50 backdrop-blur-sm">
+        <CardContent className="p-6">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Rechercher une action..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
+            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+              <SelectTrigger className="w-full md:w-48">
+                <Filter className="w-4 h-4 mr-2" />
+                <SelectValue placeholder="Catégorie" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Toutes les catégories</SelectItem>
+                <SelectItem value="Environnement">Environnement</SelectItem>
+                <SelectItem value="Social">Social</SelectItem>
+                <SelectItem value="Éducation">Éducation</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Liste des actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredActions.map((action) => (
-          <Card key={action.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-            <div className="h-48 bg-cover bg-center" style={{ backgroundImage: `url(${action.image})` }}>
-              <div className="h-full bg-black/20 flex items-end p-4">
+          <Card key={action.id} className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden">
+            <div 
+              className="h-48 bg-cover bg-center relative"
+              style={{ backgroundImage: `url(${action.image})` }}
+            >
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
+              <div className="absolute top-3 left-3">
                 <Badge className={getCategoryColor(action.category)}>
                   {action.category}
                 </Badge>
               </div>
-            </div>
-            <CardHeader>
-              <div className="flex justify-between items-start">
-                <CardTitle className="text-xl">{action.title}</CardTitle>
+              <div className="absolute bottom-3 right-3">
                 <Badge variant={action.participants.current >= action.participants.max ? "destructive" : "secondary"}>
                   {action.participants.current}/{action.participants.max}
                 </Badge>
               </div>
-              <CardDescription className="text-base">{action.description}</CardDescription>
+            </div>
+            <CardHeader>
+              <CardTitle className="text-xl group-hover:text-green-600 transition-colors">
+                {action.title}
+              </CardTitle>
+              <CardDescription className="line-clamp-2">
+                {action.description}
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-gray-600">
+              <div className="space-y-2 text-sm text-gray-600">
                 <div className="flex items-center space-x-2">
                   <Calendar className="w-4 h-4" />
                   <span>{new Date(action.date).toLocaleDateString('fr-FR')}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Clock className="w-4 h-4" />
-                  <span>{action.time}</span>
-                </div>
-                <div className="flex items-center space-x-2 md:col-span-2">
                   <MapPin className="w-4 h-4" />
-                  <span>{action.location}</span>
+                  <span className="truncate">{action.location}</span>
                 </div>
-                <div className="flex items-center space-x-2 md:col-span-2">
+                <div className="flex items-center space-x-2">
                   <Users className="w-4 h-4" />
-                  <span>Organisé par {action.organizer}</span>
+                  <span>{action.participants.current} participants inscrits</span>
                 </div>
               </div>
-              <div className="flex space-x-2">
-                <Button 
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => handleViewDetails(action.id)}
-                >
-                  Voir les détails
-                </Button>
-                <Button 
-                  className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                  onClick={() => handleJoinAction(action.title)}
-                  disabled={action.participants.current >= action.participants.max}
-                >
-                  {action.participants.current >= action.participants.max ? 'Complet' : 'S\'inscrire'}
-                </Button>
-              </div>
+              <Button 
+                className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                onClick={() => handleActionClick(action.id)}
+                disabled={action.participants.current >= action.participants.max}
+              >
+                <Heart className="w-4 h-4 mr-2" />
+                {action.participants.current >= action.participants.max ? 'Complet' : 'Rejoindre'}
+              </Button>
             </CardContent>
           </Card>
         ))}
       </div>
 
       {filteredActions.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">Aucune action ne correspond à vos critères de recherche.</p>
-        </div>
+        <Card className="text-center py-12">
+          <CardContent>
+            <Heart className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-600 mb-2">Aucune action trouvée</h3>
+            <p className="text-gray-500">Essayez de modifier vos critères de recherche ou de filtrage.</p>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
