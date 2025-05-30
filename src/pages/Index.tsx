@@ -1,32 +1,23 @@
 
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Dashboard from '@/components/Dashboard';
-import SolidaryActions from '@/components/SolidaryActions';
-import VolunteerProgram from '@/components/VolunteerProgram';
 import Footer from '@/components/Footer';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const navigate = useNavigate();
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'solidary':
-        return <SolidaryActions />;
-      case 'volunteer':
-        return <VolunteerProgram />;
-      default:
-        return <Dashboard />;
-    }
-  };
+  useEffect(() => {
+    // Rediriger vers le dashboard par défaut
+    navigate('/dashboard');
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 via-blue-50 to-emerald-50">
-      <Header activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Header activeTab="dashboard" setActiveTab={() => {}} />
       <main className="container mx-auto px-4 py-8">
-        {renderContent()}
+        <Dashboard />
       </main>
       <Footer />
     </div>

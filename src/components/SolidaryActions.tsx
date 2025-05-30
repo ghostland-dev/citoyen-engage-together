@@ -1,5 +1,5 @@
-
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 
 const SolidaryActions = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
@@ -78,6 +79,10 @@ const SolidaryActions = () => {
       title: "Inscription confirmée !",
       description: `Vous êtes inscrit(e) à l'action "${actionTitle}". Un email de confirmation vous sera envoyé.`,
     });
+  };
+
+  const handleViewDetails = (actionId: number) => {
+    navigate(`/action/${actionId}`);
   };
 
   const getCategoryColor = (category: string) => {
@@ -187,13 +192,22 @@ const SolidaryActions = () => {
                   <span>Organisé par {action.organizer}</span>
                 </div>
               </div>
-              <Button 
-                className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
-                onClick={() => handleJoinAction(action.title)}
-                disabled={action.participants.current >= action.participants.max}
-              >
-                {action.participants.current >= action.participants.max ? 'Complet' : 'Rejoindre cette action'}
-              </Button>
+              <div className="flex space-x-2">
+                <Button 
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => handleViewDetails(action.id)}
+                >
+                  Voir les détails
+                </Button>
+                <Button 
+                  className="flex-1 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600"
+                  onClick={() => handleJoinAction(action.title)}
+                  disabled={action.participants.current >= action.participants.max}
+                >
+                  {action.participants.current >= action.participants.max ? 'Complet' : 'S\'inscrire'}
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ))}
